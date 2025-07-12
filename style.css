@@ -1,0 +1,392 @@
+/* style.css */
+
+body {
+    margin: 0;
+    background-color: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Press Start 2P', cursive, sans-serif;
+    color: white; /* Cor de texto padrão para o corpo, pode ser sobrescrita por seletores mais específicos */
+}
+
+canvas {
+    background-color: #222;
+    border: 2px solid #fff;
+    width: 1100px; /* Corrigido para 1000px, conforme seu HTML */
+    height: 700px; /* Corrigido para 700px, conforme seu HTML */
+}
+
+/* Estilos para as telas de sobreposição (start e game over) */
+.overlay-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+/* Estilos específicos para o container de start */
+.start-container {
+    background-image: url('start_background.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+/* Estilos específicos para o container de game over */
+.game-over-screen {
+    background: transparent;
+    backdrop-filter: blur(5px); /* Blur mais intenso para a tela de game over */
+}
+
+/* Estilos para títulos (h1, h2) */
+.game-title { /* Para o H1 da tela inicial */
+    color: #fefefe;
+    font-size: 2rem; 
+    text-shadow: 0 0 10px rgba(82, 5, 5, 0.8);
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+    text-align: center; 
+}
+
+.game-over-title { /* Para o H1 da tela de game over */
+    font-size: 4rem;
+    color: #9b0404;
+    text-shadow: 0 0 10px rgb(169, 9, 9);
+    margin-bottom: 1rem;
+}
+
+.ranking-title { /* Para o H2 do ranking */
+    color: #070707;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    text-shadow: 0 0 8px rgba(82, 5, 5, 0.8);
+}
+
+/* Estilos para o input de nickname */
+.nickname-input {
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    border: 4px solid #e2dfdf;
+    border-radius: 5px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 250px;
+    background-color: rgba(242, 232, 232, 0.1); /* Um leve fundo translúcido para o input */
+    color: white; /* Cor do texto digitado no input */
+    font-family: 'Press Start 2P', cursive, sans-serif;
+}
+/* Estilo para o placeholder do input (requer a declaração de font-family explicitamente) */
+.nickname-input::placeholder {
+    color: rgba(248, 245, 245, 0.7);
+    font-family: 'Press Start 2P', cursive, sans-serif; /* Garante que o placeholder use a fonte pixel art */
+}
+
+/* Estilos para a mensagem de erro do nickname */
+.nickname-error {
+    color: rgb(247, 245, 245);
+    font-size: 2rem;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    font-weight: bold; 
+    border: 10x, yellow;
+    padding: 5px;
+    display: inline-block;
+}
+
+/* Estilos para os botões */
+.game-button {
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: rgb(202, 66, 66);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease; /* Transição suave para efeitos de hover/active */
+    position: relative;
+    overflow: hidden;
+    font-family: 'Press Start 2P', cursive, sans-serif;
+}
+
+/* Efeito hover genérico para os botões */
+.game-button:hover {
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 20px rgba(16, 16, 16, 0.4); /* Sombra mais pronunciada no hover */
+    background-color: rgb(156, 168, 156);
+}
+
+/* Efeito de clique genérico para os botões */
+.game-button:active {
+    transform: translateY(2px); /* Move ligeiramente para baixo no clique */
+}
+
+/* Estilo específico para o botão de restart */
+.restart-button {
+    font-size: 1.2rem;
+    background-color: rgb(108, 95, 95);
+}
+
+/* Efeito hover específico para o botão de restart (mudar cor no hover) */
+.restart-button:hover {
+    background-color: rgb(125, 97, 97);
+}
+
+/* Estilos para o texto de pontuação final */
+.final-score-text {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: black;
+    /* font-family já herdado do body */
+}
+
+/* Estilos para a lista de ranking */
+.ranking-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: black;
+    text-align: center;
+}
+
+.ranking-list li {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #0c0c0c; 
+}
+
+.ranking-list .no-scores { /* Para a mensagem 'Nenhuma pontuação registrada' */
+    font-size: 1.2rem;
+    color: #070707;
+}
+
+/* Estilos para a seção de seleção de personagem */
+.player-selection-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.player-selection-title {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 10 10 10px rgba(11, 10, 10, 0.6);
+}
+
+.player-images-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.player-image-wrapper {
+    cursor: pointer;
+    border: 9px dashed #f4f1e9; /* Borda dourada sólida mais grossa */
+    border-radius: 2px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    padding: 1px; /* Reduz o padding para a imagem preencher mais */
+    background-color: transparent; /* Fundo transparente */
+    box-sizing: border-box; /* Garante que padding e border não aumentem o tamanho total */
+}
+
+.player-select-image {
+    width: 190px;
+    height: 190px;
+    display: block;
+    object-fit: contain; /* Mantém para evitar distorção da imagem */
+}
+
+.player-image-wrapper:hover {
+    border-color: #e7a90d; /* Dourado mais claro no hover */
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.player-image-wrapper.selected {
+    border-color: #039823; /* Dourado ainda mais claro para seleção */
+    box-shadow: 0 0 8px #ffd700;
+    transform: scale(1.05);
+}
+
+/* Contêiner para os botões superiores */
+.top-buttons-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza horizontalmente */
+    display: flex;
+    gap: 15px; 
+    z-index: 101; 
+}
+
+/* Estilo para os botões de informação (Instruções, Sobre) */
+.info-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #d6244e; /* Um cinza mais discreto */
+    color: white;
+    border: 2px solid #888;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-family: 'Press Start 2P', cursive, sans-serif;
+}
+
+.info-button:hover {
+    background-color: #777;
+    border-color: #fff;
+}
+
+/* Estilos para a camada de sobreposição do modal (fundo escuro semi-transparente) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200; /* Acima de tudo */
+    display: none; /* Inicia escondido */
+}
+
+/* Estilo para o conteúdo do modal (a caixa pop-up) */
+.modal-content {
+    background-color: #FFB6C1; /* Rosa salmão pastel */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    position: relative;
+    width: 95%;
+    max-width: 1000px;
+    text-align: center;
+    color: #333; /* Cor de texto mais escura para contraste com o rosa */
+    font-size: 0.75rem;
+    line-height: 1.6;
+    animation: fadeInScale 0.3s ease-out forwards; /* Animação ao aparecer */
+}
+
+/* Estilo para o título dentro do modal */
+.modal-content h2 {
+    color: #a10a83; /* Um vermelho escuro para o título */
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Estilo para o botão de fechar do modal */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #2c06a9; /* Vermelho escuro */
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: #461fc6; /* Um tom um pouco mais claro no hover */
+}
+
+/* Estilo para links dentro do modal */
+.modal-content a {
+    color: #0000CD; /* Azul médio para o link */
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.modal-content a:hover {
+    color: #00008B; /* Azul escuro no hover */
+}
+
+/* Animação para o modal aparecer */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- NOVOS ESTILOS PARA OS BOTÕES DE TOQUE VIRTUAIS --- */
+
+.touch-controls-container {
+    position: absolute;
+    bottom: 20px; /* Distância da parte inferior */
+    width: 100%;
+    display: flex; /* Flexbox para organizar os botões */
+    justify-content: space-between; /* Espaço entre os grupos de botões (esquerda/direita e pular) */
+    align-items: flex-end; /* Alinha na parte inferior do contêiner */
+    padding: 0 40px; /* Espaço nas laterais */
+    z-index: 50; /* Acima do canvas, mas abaixo dos modais */
+    display: none; /* POR PADRÃO, OS BOTÕES ESTÃO ESCONDIDOS */
+    box-sizing: border-box; /* Garante que padding não aumente a largura total */
+}
+
+.touch-left-right-group {
+    display: flex;
+    gap: 15px; /* Espaço entre os botões 'ESQ' e 'DIR' */
+}
+
+.touch-button {
+    background-color: rgba(50, 50, 50, 0.7); /* Fundo escuro semi-transparente */
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Borda mais clara */
+    color: white;
+    font-family: 'Press Start 2P', cursive, sans-serif;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px; /* Cantos arredondados */
+    user-select: none; /* Impede a seleção de texto ao tocar */
+    -webkit-tap-highlight-color: transparent; /* Remove o destaque de toque no iOS/Android */
+    cursor: pointer; /* Indica que é clicável */
+    transition: background-color 0.1s ease, border-color 0.1s ease; /* Transição suave */
+}
+
+/* Botões de Esquerda e Direita */
+#leftBtn, #rightBtn {
+    width: 90px;
+    height: 90px;
+}
+
+/* Botão de Pular */
+.jump-button {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Torna o botão redondo */
+    background-color: rgba(100, 100, 200, 0.7); /* Uma cor diferente para o botão de pular */
+}
+
+/* Estilo para o botão quando ele está "pressionado" (ativo) */
+.touch-button.active {
+    background-color: rgba(0, 255, 0, 0.7); /* Verde quando ativo */
+    border-color: #0f0;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}

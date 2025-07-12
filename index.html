@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalhar não dá review no letterboxd.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-buttons-container">
+        <button id="instructionsBtn" class="info-button">INSTRUÇÕES:</button>
+        <button id="aboutBtn" class="info-button">SOBRE:</button>
+    </div>
+    <canvas id="gameCanvas" width="1100" height="700"></canvas>
+
+    <div id="touchControls" class="touch-controls-container">
+        <div class="touch-left-right-group"> <div id="leftBtn" class="touch-button">ESQ</div>
+            <div id="rightBtn" class="touch-button">DIR</div>
+        </div>
+        <div id="jumpBtn" class="touch-button jump-button">PULAR</div>
+    </div>
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button" id="closeInstructions">&times;</span>
+            <h2>INSTRUÇÕES:</h2>
+            <p>
+                Utilize as setas direita e esquerda do teclado para mover o personagem, pule com seta para cima
+                ou espaço. 
+            </p>
+            <p>
+                Desvie dos obstáculos do mundo coorporativo, fuja da contratação e colete os itens para garantir
+                bônus! 
+            </p>
+            <p>Este jogo contém 3 fases, não desista antes do final!</p>
+        </div>
+    </div>
+
+    <div id="aboutModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button" id="closeAbout">&times;</span>
+            <h2>SOBRE:</h2>
+            <p>
+                Bem vindo(a), espero que você se divirta jogando o quanto eu me diverti desenvolvendo ❤️.
+            </p>
+            <p>
+                Este jogo foi criado com o objetivo de brincar e satirizar com a comunidade
+                cinéfila, não tem nenhum objetivo de criticar os direitos garantidos e 
+                consolidados com as Leis do Trabalho.<br>
+                Que o bom humor seja sempre uma ferramenta para suportar qualquer opressão
+                pela esperança de dias melhores. 
+            </p>
+            <p>
+                P.s: Fim da escala 6X1. 
+            </p>
+            <p>
+                Disponível no Github: <a href="https://github.com/evymonteiro/game-cinefilo" target="_blank">Link do Repositório</a>
+            </p>
+            <p>As artes utilizadas foram geradas com a IA Gemini.</p>
+          <p>
+          Trilha Sonora:<br>
+          Stage 1: Max Richter - The Nature of Daylight.<br>
+          Stage 2: Trent Reznor & Atticus Ross - Challengers: Match Point<br>
+          Stage 3: Main Titles (MTG RUPTURA SEVERANCE BAILE FUNK) · MULUBEATS · BRUSA FUNK<br>
+          &#8471; 2025 Vamonos Music
+           </p>
+            <p>
+                Agradecimentos:<br>
+                Sarah Tenório
+            </p>
+            <p>Inspirações:<br>
+              <a href="https://instagram.com/wolverinerasta" target="_blank">@wolverinerasta</a> <br>
+              <a href="https://instagram.com/hulkcinefilo" target="_blank">@hulkcinefilo</a> <br>
+            </p>
+            <p>
+                Tecnologias utilizadas: JavaScript, css e HTML para o desenvolvimento, MongoDB e Vercel 
+                para o banco de dados e backend. <br>
+                IA Gemini para melhoria e auxílio do código fonte. 
+            </p>
+            <p>
+                Desenvolvido por Évelyn Muniz, 2025.
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
