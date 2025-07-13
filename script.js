@@ -106,15 +106,28 @@ const imgChoosePlayer = [
     { id: 'cat', img: player_cat, src: 'player_cat.png' }
 ];
 
+const gameOverMusic = new Audio();
+gameOverMusic.src = 'game_over.mp3';
+gameOverMusic.volume = 0.8;
+gameOverMusic.loop = true
+
 // STAGE 1
 const imgObstacle = new Image(); // Obstáculo Stage 1 (CLT)
 const imgSlowdown = new Image(); // Item de slowdown Stage 1 (Absolute Cinema)
 const imgBackground = new Image(); // Background Stage 1
 const bgMusic = new Audio(); // Música Stage 1
 const collectSound = new Audio(); // Som de coleta Stage 1
-const buff_score = 500; // Pontuação para o buff de slowdown
+const buff_score = 150; // Pontuação para o buff de slowdown
 const imgShield = new Image();
 const shieldSound = new Audio();
+const bone_mubi = new Image();
+const bone_mst = new Image();
+const bone_forrest = new Image();
+const bonezin_assets = [bone_forrest, bone_mst, bone_mubi];
+let bonezin = [];
+const collectSound2 = new Audio();
+
+
 
 ///STAGE 2:
 const imgSt2 = new Image(); // Imagem do obstáculo tipo 1 da Stage 2
@@ -144,7 +157,9 @@ const st3platforms = [witch, hereditary, bodies, midsommar, talk,
 ];
 
 
+
 // SOURCES
+
 
 //stg1
 
@@ -155,6 +170,10 @@ imgBackground.src = 'background.png';
 bgMusic.src = 'music.mp3';
 collectSound.src = 'collect.mp3';
 imgShield.src = 'shield.png';
+bone_mubi.src = 'bone.png'
+bone_mst.src = 'mst.png'
+bone_forrest.src = 'forrest.png'
+collectSound2.src = 'collectSound2.mp3'
 
 //stg 2
 
@@ -215,7 +234,6 @@ const villain = {
     y: 0, 
     width: 300,
     height: 800, 
-    speed: 0.002
 };
 
 //ATRIBUTOS DO GAME:
@@ -223,7 +241,7 @@ const villain = {
 let gravity = 0.6;
 let jumpStrength = -15; // Pulo do player maior
 let speed = 4; // Velocidade de movimento horizontal do player
-let villainSpeed = 0.1;
+let villainSpeed = 0.002;
 
 //Stage 1:
 
@@ -241,8 +259,8 @@ let isShieldActive = false;
 let shieldTimer = 0; 
 const SHIELD_DURATION = 5 * 60; 
 let currentStage = 1;
-const STAGE_TRANSITION_SCORE = 500;
-const STAGE2_TRANSITION_SCORE = 20000;
+const STAGE_TRANSITION_SCORE = 10000;
+const STAGE2_TRANSITION_SCORE = 17500;
 let showStageMessage = false;
 let stageMessageAlpha = 1.0;
 let stageMessageTimer = 0;
@@ -255,7 +273,7 @@ const cooldown = 10 * 60;
 const probPeriod = 20 * 60;
 const slowdownChance = 0.4;
 const baseSpeed = 2;
-const growthFactor = 0.5;
+const growthFactor = 0.69;
 
 let firstSlowdownGiven = false;
 let secondSlowdownGiven = false;
@@ -527,6 +545,18 @@ function spawnShield() {
         height: 70, 
     });
 }
+function spawnBonezin() {
+    const randomImageIndex = Math.floor(Math.random() * bonezin_assets.length);
+    const chosenImage = bonezin_assets[randomImageIndex];
+    bonezin.push({
+        x: Math.random() * (canvas.width - 70), 
+        y: -70, 
+        width: 70,
+        height: 70,
+        image: chosenImage
+    });
+}
+
 
 ///////////////////////////////////////
 ///// OBSTCÁCULOS E ITENS FASE 2 //////
@@ -616,7 +646,6 @@ function checkCollision(a, b, scale = 1) {
 
 function updateStage1() {
 
-    score++;
     // Se a seta ESQUERDA (teclado) OU o botão ESQUERDA VIRTUAL (toque) estiver ativo
 
     if (keys.left || isLeftTouched) {
@@ -630,8 +659,8 @@ function updateStage1() {
     // E o jogador estiver no chão (`player.onGround`)
 
     if ((keys.up || keys.space || isJumpTouched) && player.onGround) {
-        player.vy = jumpStrength; // Faz o jogador pular para cima
-        player.onGround = false;  // O jogador não está mais no chão
+        player.vy = jumpStrength;
+        player.onGround = false;  
         isJumpTouched = false;   
     }
 
@@ -648,6 +677,7 @@ function updateStage1() {
             obstacleSpawnRate = 2 + 0.5 * Math.sqrt(frame / 180);
         }
         obstacleSpeed = Math.max(1, baseSpeed + growthFactor * Math.sqrt(frame / 60));
+
 
         if (!firstSlowdownGiven && frame >= initialDelay) {
             spawnSlowdown();
@@ -674,6 +704,11 @@ function updateStage1() {
         }
     }
 
+     const BONEZIN_SPAWN_INTERVAL = 15 * 60;
+        if (frame % BONEZIN_SPAWN_INTERVAL === 0) { 
+            spawnBonezin();
+        }
+
     if (!showStageMessage) {
         for (let i = obstacles.length - 1; i >= 0; i--) {
             let o = obstacles[i];
@@ -698,7 +733,7 @@ function updateStage1() {
             let item = slowdownItems[i];
             item.y += 2; 
             if (checkCollision(player, item, 1)) {
-                obstacleSpeed = Math.max(1, obstacleSpeed * 0.9);
+                obstacleSpeed = Math.max(1, obstacleSpeed * 1);
                 score += buff_score; 
                 scorePopups.push({ x: item.x + item.width / 2, y: item.y, alpha: 1.0, timer: 60, text: `+${buff_score}` }); 
                 slowdownItems.splice(i, 1);
@@ -724,6 +759,23 @@ function updateStage1() {
             if (item.y > canvas.height) {
                 shieldItems.splice(i, 1); 
             }
+        }
+    }
+
+    for (let i = bonezin.length - 1; i >= 0; i--) {
+        let item = bonezin[i];
+        item.y += 2;
+        
+        if (checkCollision(player, item, 1)) {
+            score += 50; 
+            scorePopups.push({ x: item.x + item.width / 2, y: item.y, alpha: 1.0, timer: 60, text:'50!' }); 
+            bonezin.splice(i, 1); 
+            collectSound2.play(); 
+        }
+        
+        // Remove o bonezin se ele sair da tela por baixo
+        if (item.y > canvas.height) {
+            bonezin.splice(i, 1);
         }
     }
 
@@ -765,7 +817,6 @@ function updateStage1() {
 //################################################//
 
 function updateStage2() {
-    score++;
 
     if (keys.left || isLeftTouched) {
         player.vx = -speed; 
@@ -778,11 +829,10 @@ function updateStage2() {
         player.onGround = false; 
         isJumpTouched = false;    
     }
-    score++;
-
     // Mover o fundo para dar a impressão de corrida contínua 
+
     if (!showStageMessage) { 
-        backgroundSt2X -= backgroundScrollSpeed;
+        backgroundSt2X -= backgroundScrollSpeed + 0.65 * Math.sqrt(frame / 60);;
         if (backgroundSt2X <= -canvas.width) {
             backgroundSt2X += canvas.width; 
         }
@@ -823,11 +873,11 @@ function updateStage2() {
                 return;
             }
 
-            // +100 pontos por objeto pulado
+            // +50 pontos por objeto pulado
             if (!o.scored && o.x + o.width < player.x) { 
                 o.scored = true;
-                score += 100;
-                scorePopups.push({ x: player.x + player.width / 2, y: player.y, alpha: 1.0, timer: 60, text: "+100!" }); 
+                score += 50;
+                scorePopups.push({ x: player.x + player.width / 2, y: player.y, alpha: 1.0, timer: 60, text: "+50!" }); 
             }
             if (o.x + o.width < 0) { 
                 stage2Obstacles.splice(i, 1);
@@ -850,11 +900,11 @@ function updateStage2() {
                 let popupText = "";
 
                 if (rand < 0.2) { // 1/5 de chance de dar 300 pontos (0.0 a 0.2)
-                    pointsEarned = 300;
-                    popupText = "+300!";
+                    pointsEarned = 200;
+                    popupText = "+200!";
                 } else if (rand < 0.6) { // 2/5 de chance de dar 100 pontos (0.2 a 0.6)
-                    pointsEarned = 100;
-                    popupText = "+100!";
+                    pointsEarned = 50;
+                    popupText = "+50!";
                 } else if (rand < 0.8) { // 1/5 de chance de não dar nada (0.6 a 0.8)
                     pointsEarned = 0;
                     popupText = "Nada :(";
@@ -876,7 +926,7 @@ function updateStage2() {
     ///////////////////// VILLAIN /////////////////////// 
 
         villain.y = canvas.height - villain.height; 
-        villain.x += villainSpeed;
+        villain.x += villainSpeed + 0.006 * Math.sqrt(frame / 60);
         
         // Garante que não saia da tela pela direita
         if (villain.x > canvas.width) {
@@ -960,6 +1010,10 @@ function update() {
 async function showGameOver() {
     bgMusic.pause();
     bgMusicSt2.pause();
+    bgMusicSt3.pause();
+    gameOverMusic.play().catch(error => {
+        console.error("Erro ao iniciar música de Game Over:", error);
+    });
     const backendUrl = 'https://game-cinefilo.vercel.app/api';
     obstacles = [];
     slowdownItems = [];
@@ -1092,6 +1146,14 @@ function draw() {
             for (let item of slowdownItems) {
                 ctx.drawImage(imgSlowdown, item.x, item.y, item.width, item.height);
             }
+             bonezin.forEach(item => {
+            if (item.image && item.image.complete) {
+            ctx.drawImage(item.image, item.x, item.y, item.width, item.height);
+         } else {
+            ctx.fillStyle = 'purple'; 
+            ctx.fillRect(item.x, item.y, item.width, item.height);
+        }
+    });
             for (let i = scorePopups.length - 1; i >= 0; i--) {
                 let popup = scorePopups[i];
                 ctx.save();
